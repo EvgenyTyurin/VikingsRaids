@@ -27,8 +27,16 @@ public class AppData {
         provinces.add(new Province("Wales", 50, 500));
     }
 
-    public RaidResult raidProvince(Province province, Earl earl) {
-        return new RaidResult(10, 250, 25);
+    public RaidResult raidProvince(Province province, Raid raid) {
+        Earl earl = raid.getEarl();
+        System.out.println(raid.getMenAtStart() + " vikings attacking " + province.getManPower() + " defenders");
+        int menLost = province.getManPower() / 2;
+        int menKilled = menLost;
+        province.setManPower(province.getManPower() - menKilled / 2);
+        int goldPlundered = province.getGold() / 2;
+        province.setGold(province.getGold() - goldPlundered);
+        earl.setGold(earl.getGold() + goldPlundered);
+        return new RaidResult(menLost, goldPlundered, menKilled);
     }
 
     public int getManPower(Earl earl) {

@@ -1,9 +1,6 @@
 package evgenyt.vikingsraids;
 
-import evgenyt.vikingsraids.model.AppData;
-import evgenyt.vikingsraids.model.Earl;
-import evgenyt.vikingsraids.model.Province;
-import evgenyt.vikingsraids.model.RaidResult;
+import evgenyt.vikingsraids.model.*;
 
 import java.util.List;
 import java.util.Scanner;
@@ -30,17 +27,22 @@ public class VikingsApp {
                 System.out.println(province.getName() + ", " + province.getManPower() +
                         " men, " + province.getGold() + " gold");
             }
-            System.out.println("\nProvince to raid:");
             Scanner scanner = new Scanner(System.in);
+            System.out.println("\nProvince to raid:");
             String raidProvince = scanner.next();
             int provinceIdx = provinces.indexOf(new Province(raidProvince, 0, 0));
             if (provinceIdx > -1) {
                 Province province = provinces.get(provinceIdx);
-                RaidResult raidResult = appData.raidProvince(province, player);
+                Raid raid = new Raid(player, maxRaidPower);
+                RaidResult raidResult = appData.raidProvince(province, raid);
                 System.out.println(province + " raided!");
                 System.out.println("Gold plundered: " + raidResult.getGoldPlundered());
                 System.out.println("Men lost      : " + raidResult.getMenLost());
                 System.out.println("Men killed    : " + raidResult.getMenKilled());
+            } else {
+                System.out.println("No raid this year...");
+                if (raidProvince.equals("q"))
+                    return;
             }
             year++;
         }
